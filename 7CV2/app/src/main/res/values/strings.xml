@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Fragment Básico</string>
+    <string name="welcome_title">Fragment de Bienvenida</string>
+    <string name="welcome_description">Este es tu primer Fragment. Los Fragments son componentes reutilizables que contienen una parte de la interfaz de usuario.</string>
+    <string name="hint_name">Ingresa tu nombre</string>
+    <string name="btn_greet">Saludar</string>
+    <string name="btn_clear">Limpiar</string>
+    <string name="greeting_message">¡Hola %1$s! Bienvenido a tu primera app con Fragments 😊</string>
+    <string name="empty_name_message">Por favor, ingresa tu nombre</string>
+    <string name="tip_message">💡 Tip: Los Fragments son perfectos para crear interfaces modulares y reutilizables. Puedes añadir más Fragments fácilmente a esta estructura.</string>
+</resources>
