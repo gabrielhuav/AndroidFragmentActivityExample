@@ -4,66 +4,92 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import ovh.gabrielhuav.a7cv2.databinding.ActivityMainBinding
+import ovh.gabrielhuav.a7cv2.databinding.FragmentSecondBinding
 
 class SecondFragment : Fragment() {
 
-    private lateinit var tvCounter: TextView
-    private lateinit var btnIncrement: Button
-    private lateinit var btnDecrement: Button
-    private lateinit var btnClose: Button
-
-    private var counter = 0
+    private var _binding: FragmentSecondBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_second, container, false)
+    ): View {
+        _binding = FragmentSecondBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initViews(view)
         setupClickListeners()
-        updateCounter()
+        showFragmentDetails()
     }
-
-    private fun initViews(view: View) {
-        tvCounter = view.findViewById(R.id.tvCounter)
-        btnIncrement = view.findViewById(R.id.btnIncrement)
-        btnDecrement = view.findViewById(R.id.btnDecrement)
-        btnClose = view.findViewById(R.id.btnClose)
-    }
-    private lateinit var binding: ActivityMainBinding
 
     private fun setupClickListeners() {
-        btnIncrement.setOnClickListener {
-            counter++
-            updateCounter()
+        binding.btnActionOne.setOnClickListener {
+            performActionOne()
         }
 
-        btnDecrement.setOnClickListener {
-            counter--
-            updateCounter()
+        binding.btnActionTwo.setOnClickListener {
+            performActionTwo()
         }
 
-        btnClose.setOnClickListener {
-            closeFragment()
+        binding.btnShowStats.setOnClickListener {
+            showStatistics()
         }
     }
 
-    private fun updateCounter() {
-        tvCounter.text = "Contador: $counter"
+    private fun showFragmentDetails() {
+        binding.tvFragmentDescription.text = """
+            🎯 SecondFragment
+            
+            Este fragment se muestra dentro de SecondActivity y demuestra:
+            • Navegación anidada entre Activities y Fragments
+            • Consistencia de temas en toda la aplicación
+            • Interacciones dentro del fragment
+        """.trimIndent()
     }
 
-    private fun closeFragment() {
-        // Remover este fragment y regresar al anterior
-        parentFragmentManager.popBackStack()
+    private fun performActionOne() {
+        binding.tvActionResult.text = "✅ Acción 1 ejecutada correctamente"
+        binding.tvActionResult.visibility = View.VISIBLE
+
+        // Simular alguna funcionalidad
+        binding.progressBar.visibility = View.VISIBLE
+        binding.progressBar.postDelayed({
+            binding.progressBar.visibility = View.GONE
+        }, 1500)
+    }
+
+    private fun performActionTwo() {
+        binding.tvActionResult.text = "🔧 Acción 2 completada con éxito"
+        binding.tvActionResult.visibility = View.VISIBLE
+
+        // Cambiar el estado de algún elemento
+        binding.switchOption.isChecked = !binding.switchOption.isChecked
+    }
+
+    private fun showStatistics() {
+        val stats = """
+            📊 Estadísticas del Fragment:
+            
+            🎨 Tema adaptable: ✅
+            🔄 Navegación funcional: ✅
+            📱 Responsive design: ✅
+            ⚡ Rendimiento optimizado: ✅
+            
+            ¡Todo funcionando perfectamente!
+        """.trimIndent()
+
+        binding.tvStats.text = stats
+        binding.tvStats.visibility = View.VISIBLE
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

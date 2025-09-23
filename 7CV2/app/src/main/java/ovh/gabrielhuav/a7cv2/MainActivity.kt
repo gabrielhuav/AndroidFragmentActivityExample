@@ -1,8 +1,10 @@
 package ovh.gabrielhuav.a7cv2
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import ovh.gabrielhuav.a7cv2.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -10,6 +12,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Aplicar tema antes de super.onCreate()
+        applyStoredTheme()
+
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -20,8 +25,22 @@ class MainActivity : AppCompatActivity() {
             loadWelcomeFragment()
         }
 
-        // Configurar botones si los tienes en MainActivity
+        // Configurar botones
         setupClickListeners()
+
+        // Actualizar el indicador de tema
+        updateThemeStatusText()
+    }
+
+    private fun applyStoredTheme() {
+        val sharedPref = getSharedPreferences("theme_preferences", Context.MODE_PRIVATE)
+        val theme = sharedPref.getString("selected_theme", "default")
+
+        when (theme) {
+            "light" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            "dark" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            "default" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        }
     }
 
     private fun loadWelcomeFragment() {
@@ -38,6 +57,58 @@ class MainActivity : AppCompatActivity() {
         binding.btnOpenSecondActivity.setOnClickListener {
             openSecondActivity()
         }
+
+        // Configurar botón para cambiar tema
+        binding.btnToggleTheme.setOnClickListener {
+            toggleTheme()
+        }
+    }
+
+    private fun toggleTheme() {
+        val sharedPref = getSharedPreferences("theme_preferences", Context.MODE_PRIVATE)
+        val currentTheme = sharedPref.getString("selected_theme", "default")
+
+        val newTheme = when (currentTheme) {
+            "light" -> "dark"
+            "dark" -> "default"
+            else -> "light"
+        }
+
+        // Guardar nueva preferencia
+        with(sharedPref.edit()) {
+            putString("selected_theme", newTheme)
+            apply()
+        }
+
+        // Aplicar nuevo tema
+        applyStoredTheme()
+
+        // Actualizar texto del botón y indicador antes de recrear
+        updateThemeButtonText(newTheme)
+        updateThemeStatusText()
+
+        // Recrear activity para aplicar cambios
+        recreate()
+    }
+
+    private fun updateThemeButtonText(theme: String) {
+        val buttonText = when (theme) {
+            "light" -> "☀️ Cambiar Tema"
+            "dark" -> "🌙 Cambiar Tema"
+            else -> "🌓 Cambiar Tema"
+        }
+        binding.btnToggleTheme.text = buttonText
+    }
+
+    private fun updateThemeStatusText() {
+        val currentTheme = getCurrentTheme()
+        val statusText = when (currentTheme) {
+            "light" -> "Tema actual: Claro"
+            "dark" -> "Tema actual: Oscuro"
+            else -> "Tema actual: Sistema"
+        }
+        binding.tvThemeStatus.text = statusText
+        updateThemeButtonText(currentTheme)
     }
 
     // Función para abrir SecondActivity desde MainActivity
@@ -67,5 +138,11 @@ class MainActivity : AppCompatActivity() {
             putExtra("ORIGEN", "WelcomeFragment")
         }
         startActivity(intent)
+    }
+
+    // Función para obtener el tema actual
+    fun getCurrentTheme(): String {
+        val sharedPref = getSharedPreferences("theme_preferences", Context.MODE_PRIVATE)
+        return sharedPref.getString("selected_theme", "default") ?: "default"
     }
 }

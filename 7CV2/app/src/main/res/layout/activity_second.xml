@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    android:background="#E8F5E8"
+    android:background="?attr/colorSurface"
     tools:context=".SecondActivity">
 
     <!-- Título de la segunda Activity -->
@@ -17,77 +17,103 @@
         android:textSize="28sp"
         android:textStyle="bold"
         android:textAlignment="center"
-        android:textColor="@color/design_default_color_primary"
-        android:layout_marginBottom="24dp"
+        android:textColor="?attr/colorPrimary"
+        android:layout_marginBottom="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Descripción -->
-    <TextView
-        android:id="@+id/tvDescription"
+    <!-- Botón de cambio de tema -->
+    <Button
+        android:id="@+id/btnToggleTheme"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="¡Bienvenido a tu segunda Activity! Aquí puedes ver cómo hacer transiciones entre Activities y pasar datos entre ellas."
-        android:textSize="16sp"
-        android:textAlignment="center"
-        android:lineSpacingExtra="4dp"
-        android:layout_marginBottom="32dp"
+        android:text="🌙 Cambiar Tema"
+        android:layout_marginBottom="8dp"
+        style="@style/Widget.Material3.Button.TonalButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+
+    <!-- Indicador del tema actual -->
+    <TextView
+        android:id="@+id/tvThemeStatus"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Tema actual: Sistema 🌓"
+        android:textSize="14sp"
+        android:textAlignment="center"
+        android:padding="8dp"
+        android:textColor="?attr/colorOnSurface"
+        android:background="?attr/colorSurfaceVariant"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnToggleTheme" />
 
     <!-- Card para mostrar datos recibidos -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardDataReceived"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="16dp"
         app:cardCornerRadius="12dp"
         app:cardElevation="4dp"
+        app:cardBackgroundColor="?attr/colorSurfaceContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDescription">
+        app:layout_constraintTop_toBottomOf="@+id/tvThemeStatus">
 
         <TextView
             android:id="@+id/tvDataReceived"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:text="Datos recibidos:\n(Aquí aparecerán los datos enviados desde el Activity anterior)"
+            android:text="📦 Datos recibidos:\n(Aquí aparecerán los datos enviados desde el Activity anterior)"
             android:textSize="14sp"
-            android:background="@android:color/white"
-            android:textColor="@android:color/black" />
+            android:textColor="?attr/colorOnSurface" />
 
     </androidx.cardview.widget.CardView>
+
+    <!-- Contenedor de Fragment -->
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        android:background="?attr/colorSurfaceVariant"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardDataReceived"
+        app:layout_constraintBottom_toTopOf="@+id/layoutButtons" />
 
     <!-- Botones de navegación -->
     <LinearLayout
         android:id="@+id/layoutButtons"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardDataReceived"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <Button
             android:id="@+id/btnBackToMain"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="⬅️ Regresar a MainActivity"
-            android:layout_marginBottom="16dp"
+            android:layout_weight="1"
+            android:text="⬅️ Regresar"
+            android:layout_marginEnd="8dp"
             style="@style/Widget.Material3.Button" />
-
-
 
         <Button
             android:id="@+id/btnFinishActivity"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="❌ Cerrar esta Activity"
+            android:layout_weight="1"
+            android:text="❌ Cerrar"
+            android:layout_marginStart="8dp"
             style="@style/Widget.Material3.Button.TextButton" />
 
     </LinearLayout>

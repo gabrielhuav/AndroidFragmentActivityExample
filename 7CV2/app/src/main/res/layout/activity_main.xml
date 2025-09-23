@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
     tools:context=".MainActivity">
 
     <!-- Título de la aplicación -->
@@ -16,33 +17,70 @@
         android:textStyle="bold"
         android:textAlignment="center"
         android:padding="16dp"
-        android:background="@color/design_default_color_primary"
-        android:textColor="@android:color/white"
+        android:background="?attr/colorPrimary"
+        android:textColor="?attr/colorOnPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnOpenSecondActivity"
+    <!-- Contenedor horizontal para los botones principales -->
+    <LinearLayout
+        android:id="@+id/llButtonsContainer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="🚀 Ir a Segunda Activity"
+        android:orientation="horizontal"
+        android:layout_margin="8dp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle">
+
+        <Button
+            android:id="@+id/btnOpenSecondActivity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="🚀 Ir a Segunda Activity"
+            android:layout_marginEnd="4dp"
+            style="@style/Widget.Material3.Button" />
+
+        <Button
+            android:id="@+id/btnToggleTheme"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="🌙 Cambiar Tema"
+            android:layout_marginStart="4dp"
+            style="@style/Widget.Material3.Button.TonalButton" />
+
+    </LinearLayout>
+
+    <!-- Indicador del tema actual -->
+    <TextView
+        android:id="@+id/tvThemeStatus"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Tema actual: Sistema"
+        android:textSize="14sp"
+        android:textAlignment="center"
+        android:padding="8dp"
+        android:textColor="?attr/colorOnSurface"
+        android:background="?attr/colorSurfaceVariant"
         android:layout_margin="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/llButtonsContainer" />
 
-    <!-- Modificar el fragmentContainer para que esté debajo del botón -->
+    <!-- Contenedor de fragments -->
     <FrameLayout
         android:id="@+id/fragmentContainer"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="8dp"
+        android:background="?attr/colorSurfaceContainer"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnOpenSecondActivity" />
-
-
+        app:layout_constraintTop_toBottomOf="@+id/tvThemeStatus" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
